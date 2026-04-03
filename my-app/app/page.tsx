@@ -27,7 +27,7 @@ export default function HomePage() {
             title="Ceramic Vase" 
             artist="Elena Gomez" 
             price={45.00} 
-            image={ceramicVase}
+            image={ceramicVase.src}
           />
         </section>
       </div>
