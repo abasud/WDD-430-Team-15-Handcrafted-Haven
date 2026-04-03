@@ -1,14 +1,22 @@
+:root {
+    --color1: #606C38;
+    --color2: #283618; 
+    --color3: #FEFAE0; 
+    --color4: #DDA15E; 
+    --color5: #BC6C25; 
+}
+
 .container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5f0eb;
+  background-color: var(--color3);
   padding: 1rem;
 }
 
 .card {
-  background: white;
+  background: var(--color4);
   border-radius: 12px;
   padding: 2.5rem;
   width: 100%;
@@ -19,12 +27,12 @@
 .title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #2d2d2d;
+  color: var(--color2);
   margin: 0 0 0.25rem;
 }
 
 .subtitle {
-  color: #6b6b6b;
+  color: var(--color1);
   margin: 0 0 2rem;
   font-size: 0.95rem;
 }
@@ -44,7 +52,7 @@
 .label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #2d2d2d;
+  color: var(--color2);
 }
 
 .input {

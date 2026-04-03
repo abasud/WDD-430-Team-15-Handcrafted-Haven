@@ -12,6 +12,10 @@ export default function Filters() {
             <label>Artist</label>
             <select>
                 <option value="all">All Artists</option>
+                <option value="Elena Gomez">Elena Gomez</option>
+                <option value="Karl Porter">Karl Porter</option>
+                <option value="Maya Lee">Maya Lee</option>
+                <option value="Dominic Chen">Dominic Chen</option>
             </select>
         </div>          
         <div className={styles.filterGroup}>

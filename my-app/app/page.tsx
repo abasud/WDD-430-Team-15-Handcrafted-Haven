@@ -1,19 +1,36 @@
-import Image from "next/image";
+'use client';
+import ProductCard from "./ui/components/productCard";
+import Filters from "./ui/components/filters";
 import styles from "./ui/page.module.css";
+import ceramicVase from "../public/card-images/ceramic-vase.jpg";
 
-export default function Page() {
+export default function HomePage() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <div className={styles.intro}>
-          <h1>Handcrafted Haven</h1>
-          <p>
-
-          </p>
+    <div className={styles.container}>
+      <section className={styles.hero}>
+        <h1 className={styles.title}>Handcrafted Haven</h1>
+        <p className={styles.subtitle}>Discover pieces made with passion</p>        
+        <div className={styles.searchContainer}>
+          <input 
+            type="text" 
+            placeholder="Search for unique items" 
+            className={styles.searchInput}
+          />
+          <button className={styles.searchButton}>Search</button>
         </div>
-        <div className={styles.ctas}>
-        </div>
-      </main>
+      </section>
+      <div className={styles.mainContent}>
+        <Filters />
+        <section className={styles.productGallery}>
+          <ProductCard
+            id="temp-id-001" 
+            title="Ceramic Vase" 
+            artist="Elena Gomez" 
+            price={45.00} 
+            image={ceramicVase}
+          />
+        </section>
+      </div>
     </div>
   );
 }
