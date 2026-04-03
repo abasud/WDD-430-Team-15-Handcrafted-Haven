@@ -23,7 +23,6 @@ export function LoginForm() {
           className={styles.input}
         />
       </div>
-
       <div className={styles.field}>
         <label htmlFor="password" className={styles.label}>
           Password

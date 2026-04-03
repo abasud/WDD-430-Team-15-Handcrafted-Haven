@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto, Lato, Montserrat } from "next/font/google";
 import "./ui/globals.css";
-import Image from "next/image";
-import logo from "../public/handcrafted-haven-logo.png";
+import Header from "./ui/components/Header";
 
 const roboto = Roboto({
   weight: ["400", "500", "700"],
@@ -38,12 +37,7 @@ export default function RootLayout({
       className={`${roboto.variable} ${lato.variable} ${montserrat.variable}`}
     >
       <body>
-        <header>
-          <div className="upper-line">
-            <Image className="logo" src={logo} alt="Handcrafted Haven Logo" />
-            <button className="login-button">Login</button>
-          </div>
-        </header>
+        <Header></Header>
         <main>
           {children}
         </main>
