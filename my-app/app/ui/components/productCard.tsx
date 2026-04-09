@@ -26,7 +26,10 @@ export default function ProductCard({ id, title, artist, price, image }: Product
         <div className={styles.details}>
           <h4 className={styles.title}>{title}</h4>
           <p className={styles.artist}>By {artist}</p>
-          <p className={styles.price}>${price.toFixed(2)}</p>
+          <div className={styles.footer}>
+            <span className={styles.price}>${price.toFixed(2)}</span>
+            <span className={styles.viewButton}>View →</span>
+          </div>
         </div>
       </article>
     </Link>

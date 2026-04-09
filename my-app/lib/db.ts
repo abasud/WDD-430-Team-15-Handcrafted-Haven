@@ -1,26 +1,30 @@
-import { PrismaClient } from '../app/generated/prisma/client';
-import { PrismaLibSql } from '@prisma/adapter-libsql';
-import { createClient } from '@libsql/client';
+import mongoose from "mongoose";
 
-const createPrismaClient = () => {
-  // Initialize the LibSQL database connection
-  const libsql = createClient({
-    url: process.env.DATABASE_URL || "file:./dev.db", // Local fallback
-    authToken: process.env.DATABASE_AUTH_TOKEN,
-  });
+const MONGODB_URI = process.env.DATABASE_URL!;
 
-  const adapter = new PrismaLibSql(libsql as any);
-  
-  return new PrismaClient({ adapter });
+if (!MONGODB_URI) {
+  throw new Error("Please define the DATABASE_URL environment variable");
+}
+
+const globalForMongoose = globalThis as unknown as {
+  mongoose: { conn: mongoose.Connection | null; promise: Promise<mongoose.Connection> | null };
 };
 
-// Prevent multiple instances in development (Next.js HMR)
-const globalForPrisma = globalThis as unknown as {
-  prisma: ReturnType<typeof createPrismaClient> | undefined;
-};
+if (!globalForMongoose.mongoose) {
+  globalForMongoose.mongoose = { conn: null, promise: null };
+}
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
+export async function connectDB() {
+  if (globalForMongoose.mongoose.conn) {
+    return globalForMongoose.mongoose.conn;
+  }
 
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prisma = prisma;
+  if (!globalForMongoose.mongoose.promise) {
+    globalForMongoose.mongoose.promise = mongoose
+      .connect(MONGODB_URI)
+      .then((m) => m.connection);
+  }
+
+  globalForMongoose.mongoose.conn = await globalForMongoose.mongoose.promise;
+  return globalForMongoose.mongoose.conn;
 }
