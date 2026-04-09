@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { loginAction } from "./actions";
 import styles from "./login.module.css";
 
@@ -45,6 +46,13 @@ export function LoginForm() {
       <button type="submit" className={styles.button} disabled={isPending}>
         {isPending ? "Signing in..." : "Sign In"}
       </button>
+
+      <p className={styles.signupLink}>
+        Don&apos;t have an account?{" "}
+        <Link href="/signup" className={styles.link}>
+          Create one
+        </Link>
+      </p>
     </form>
   );
 }

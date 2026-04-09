@@ -1,4 +1,3 @@
-'use client';
 import ProductCard from "./ui/components/productCard";
 import Filters from "./ui/components/filters";
 import styles from "./ui/page.module.css";
