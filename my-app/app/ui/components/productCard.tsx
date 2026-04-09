@@ -10,9 +10,15 @@ interface ProductCardProps {
   image: string;
 }
 
-export default function ProductCard({ id, title, artist, price, image }: ProductCardProps) {
+export default function ProductCard({
+  id,
+  title,
+  artist,
+  price,
+  image,
+}: ProductCardProps) {
   return (
-    <Link href={`/products/${id}`} className={styles.cardLink}>
+    <Link href={`/items/${id}`} className={styles.cardLink}>
       <article className={styles.card}>
         <div className={styles.imageContainer}>
           <Image
@@ -22,7 +28,8 @@ export default function ProductCard({ id, title, artist, price, image }: Product
             className={styles.image}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-        </div>        
+        </div>
+
         <div className={styles.details}>
           <h4 className={styles.title}>{title}</h4>
           <p className={styles.artist}>By {artist}</p>
