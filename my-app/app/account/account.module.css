@@ -1,0 +1,166 @@
+.page {
+  padding: 2.5rem 4.5rem;
+}
+
+.accountName {
+  margin: 0 0 2.5rem 0;
+}
+
+.reviewsSection {
+  margin-bottom: 4rem;
+}
+
+.productsSection {
+  margin-top: 0;
+}
+
+.sectionTitle {
+  margin: 0 0 1rem 0;
+}
+
+.emptyText {
+  margin: 0;
+}
+
+.card {
+  border: 1px solid #d6d6d6;
+  border-radius: 20px;
+  background: #ffffff;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.reviewTitle {
+  margin: 0 0 0.5rem 0;
+}
+
+.productHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.productTitle {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.price {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.productDescription {
+  margin: 0 0 0.9rem 0;
+}
+
+.detailRow {
+  margin: 0 0 0.5rem 0;
+}
+
+.actionsRow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.actionLink {
+  display: inline-block;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 500;
+}
+
+.actionLink:hover {
+  text-decoration: underline;
+}
+
+.inlineForm {
+  display: inline-block;
+  margin: 0;
+}
+
+.deleteButton {
+  border: 1px solid #b91c1c;
+  background: #ffffff;
+  color: #b91c1c;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font: inherit;
+}
+
+.createProductWrap {
+  margin-top: 2.25rem;
+}
+
+.createLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.createLink:hover {
+  text-decoration: underline;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+.modal {
+  width: min(100%, 420px);
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modalText {
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+.modalActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.confirmButton {
+  border: none;
+  background: #b91c1c;
+  color: #ffffff;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font: inherit;
+}
+
+.cancelButton {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  color: #222222;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font: inherit;
+}
