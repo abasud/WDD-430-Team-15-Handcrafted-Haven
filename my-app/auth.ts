@@ -38,21 +38,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as { role?: string }).role;
+
+        const role = (user as { role?: unknown }).role;
+        if (role === "buyer" || role === "seller") {
+          token.role = role;
+        }
       }
+
       return token;
     },
+
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
-        session.user.role = token.role as "buyer" | "seller";
+
+        if (token.role === "buyer" || token.role === "seller") {
+          session.user.role = token.role;
+        }
       }
+
       return session;
     },
   },
