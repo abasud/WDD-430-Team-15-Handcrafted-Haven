@@ -1,13 +1,11 @@
 "use client";
 
 import { useActionState } from "react";
-import {
-  createProductAction,
-  type CreateProductState,
-} from "./actions";
+import { createProductAction } from "./actions";
+import type { ProductFormState } from "../product-form";
 import styles from "./product-new.module.css";
 
-const initialState: CreateProductState = null;
+const initialState: ProductFormState = null;
 
 export default function ProductCreateForm() {
   const [state, formAction, pending] = useActionState(
