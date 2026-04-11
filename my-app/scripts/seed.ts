@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
-import User from "../lib/models/User";
+import User from "../lib/models/Buyer";
 
 const MONGODB_URI = process.env.DATABASE_URL!;
 
