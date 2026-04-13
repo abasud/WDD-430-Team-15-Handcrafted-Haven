@@ -7,6 +7,7 @@ import Review from "../../../lib/models/Review";
 import { notFound } from "next/navigation";
 import { createReview } from "./actions";
 import styles from "./item-page.module.css";
+import WishlistCheckbox from "../../ui/components/Wishlist";
 
 export default async function Page({
   params,
@@ -78,6 +79,17 @@ export default async function Page({
                 <strong>Materials:</strong> {product.materials.join(", ")}
               </p>
             )}
+            <WishlistCheckbox 
+              product={{
+                id: product._id.toString(),
+                title: product.title,
+                image: product.image,
+                price: product.price,
+                artist: product.artist,
+                category: product.category
+              }} 
+              isLoggedIn={!!session} 
+            />
           </div>
         </div>
 

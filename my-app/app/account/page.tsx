@@ -6,6 +6,7 @@ import Product from "../../lib/models/Product";
 import Review from "../../lib/models/Review";
 import { deleteProduct, deleteReview } from "./actions";
 import styles from "./account.module.css";
+import WishlistManager from "../ui/components/WishlistManager";
 
 export default async function AccountPage() {
   const session = await auth();
@@ -24,6 +25,13 @@ export default async function AccountPage() {
   return (
     <main className={styles.page}>
       <h1 className={styles.accountName}>{user.name}</h1>
+
+      <section className={styles.wishlistSection}>
+        <h2 className={styles.sectionTitle}>My Wishlist</h2>
+        
+        <WishlistManager />
+        
+      </section>
 
       <section className={styles.reviewsSection}>
         <h2 className={styles.sectionTitle}>My Reviews</h2>
