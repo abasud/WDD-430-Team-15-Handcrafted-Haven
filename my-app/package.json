@@ -20,6 +20,11 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "bcryptjs"
+    ],
+    "ignoredBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
     ]
   },
   "devDependencies": {
