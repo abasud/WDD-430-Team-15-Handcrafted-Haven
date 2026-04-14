@@ -2,7 +2,8 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { connectDB } from "./lib/db";
-import User from "./lib/models/User";
+import Buyer from "./lib/models/Buyer";
+import Seller from "./lib/models/Seller";
 import { authConfig } from "./auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -18,7 +19,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         await connectDB();
 
-        const user = await User.findOne({ email: credentials.email as string });
+        // Check both collections — buyers and sellers
+        const user =
+          (await Buyer.findOne({ email: credentials.email as string })) ??
+          (await Seller.findOne({ email: credentials.email as string }));
 
         if (!user) return null;
 
@@ -38,20 +42,33 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
+
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.role = (user as { role?: string }).role;
+        token.id = user.id;
+
+        const role = (user as { role?: unknown }).role;
+        if (role === "buyer" || role === "seller") {
+          token.role = role;
+        }
       }
+
       return token;
     },
+
     async session({ session, token }) {
       if (session.user) {
-        (session.user as { role?: string; id?: string }).role = token.role as string;
-        (session.user as { id?: string }).id = token.sub;
+        session.user.id = token.id as string;
+
+        if (token.role === "buyer" || token.role === "seller") {
+          session.user.role = token.role;
+        }
       }
+
       return session;
     },
   },

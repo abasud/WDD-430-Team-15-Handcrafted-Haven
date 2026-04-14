@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "../../auth";
 import { connectDB } from "../../lib/db";
-import User from "../../lib/models/User";
+import Seller from "../../lib/models/Seller";
 import Product from "../../lib/models/Product";
 
 type ProfileState = { error?: string } | null;
@@ -21,7 +21,7 @@ export async function updateSellerProfile(
   const story = (formData.get("story") as string)?.trim() ?? "";
 
   await connectDB();
-  await User.findByIdAndUpdate(userId, { bio, story });
+  await Seller.findByIdAndUpdate(userId, { bio, story });
 
   return null;
 }
@@ -31,13 +31,14 @@ export async function createProduct(
   formData: FormData
 ): Promise<ProductState> {
   const session = await auth();
-  const userId = (session?.user as { id?: string })?.id;
+  const userId = (session?.user as { id?: string; name?: string })?.id;
+  const userName = (session?.user as { name?: string })?.name ?? "Unknown Artist";
   if (!userId) return { error: "Not authenticated." };
 
   const title = (formData.get("title") as string)?.trim();
   const description = (formData.get("description") as string)?.trim();
   const priceRaw = formData.get("price") as string;
-  const category = (formData.get("category") as string)?.trim() ?? "";
+  const category = (formData.get("category") as string)?.trim();
   const image = (formData.get("image") as string)?.trim() ?? "";
 
   const fieldErrors: Record<string, string> = {};
@@ -45,11 +46,21 @@ export async function createProduct(
   if (!description || description.length < 10) fieldErrors.description = "Description must be at least 10 characters.";
   const price = parseFloat(priceRaw);
   if (isNaN(price) || price < 0) fieldErrors.price = "Enter a valid price.";
+  if (!category) fieldErrors.category = "Please select a category.";
 
   if (Object.keys(fieldErrors).length > 0) return { fieldErrors };
 
   await connectDB();
-  await Product.create({ sellerId: userId, title, description, price, category, image });
+  await Product.create({
+    sellerId: userId,
+    title,
+    artist: userName,
+    description,
+    price,
+    category,
+    image,
+    availability: "available",
+  });
 
   redirect("/seller/profile");
 }

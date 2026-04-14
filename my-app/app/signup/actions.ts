@@ -2,7 +2,8 @@
 
 import bcrypt from "bcryptjs";
 import { connectDB } from "../../lib/db";
-import User from "../../lib/models/User";
+import Buyer from "../../lib/models/Buyer";
+import Seller from "../../lib/models/Seller";
 import { redirect } from "next/navigation";
 
 export type SignupState = {
@@ -46,21 +47,35 @@ export async function signupAction(
 
   try {
     await connectDB();
-
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return { error: "An account with this email already exists." };
-    }
-
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    await User.create({
-      name,
-      email,
-      password: hashedPassword,
-      role,
-    });
-  } catch {
+    if (role === "seller") {
+      const existingSeller = await Seller.findOne({ email });
+      if (existingSeller) {
+        return { error: "An account with this email already exists." };
+      }
+
+      await Seller.create({
+        name,
+        email,
+        password: hashedPassword,
+        role: "seller",
+      });
+    } else {
+      const existingBuyer = await Buyer.findOne({ email });
+      if (existingBuyer) {
+        return { error: "An account with this email already exists." };
+      }
+
+      await Buyer.create({
+        name,
+        email,
+        password: hashedPassword,
+        role: "buyer", 
+      });
+    }
+  } catch (error) {
+    console.error("Signup Database Error:", error);
     return { error: "Something went wrong. Please try again." };
   }
 

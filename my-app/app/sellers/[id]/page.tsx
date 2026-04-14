@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import mongoose from "mongoose";
 import { connectDB } from "../../../lib/db";
-import User from "../../../lib/models/User";
+import Seller from "../../../lib/models/Seller";
 import Product from "../../../lib/models/Product";
 import styles from "./sellerPublic.module.css";
 
@@ -16,7 +16,7 @@ export default async function PublicSellerProfilePage({ params }: PageProps) {
 
   await connectDB();
 
-  const user = await User.findOne({ _id: id, role: "seller" }).lean();
+  const user = await Seller.findOne({ _id: id, role: "seller" }).lean();
   if (!user) notFound();
 
   const products = await Product.find({ sellerId: id })

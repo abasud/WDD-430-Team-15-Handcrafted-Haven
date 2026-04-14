@@ -1,30 +1,33 @@
 import mongoose, { Schema, Model } from "mongoose";
 
-export interface IUser {
+export interface ISeller {
   _id: mongoose.Types.ObjectId;
   name?: string;
   email: string;
   password: string;
-  role: "buyer" | "seller";
+  role: "seller";
   bio?: string;
   story?: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const UserSchema = new Schema<IUser>(
+const SellerSchema = new Schema<ISeller>(
   {
     name: { type: String },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ["buyer", "seller"], default: "buyer", required: true },
+    role: { type: String, enum: ["seller"], required: true },
     bio: { type: String, default: "" },
     story: { type: String, default: "" },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    collection: "sellers"
+  }
 );
 
-const User: Model<IUser> =
-  mongoose.models.User ?? mongoose.model<IUser>("User", UserSchema);
+const Seller: Model<ISeller> =
+  mongoose.models.Seller ?? mongoose.model<ISeller>("Seller", SellerSchema);
 
-export default User;
+export default Seller;

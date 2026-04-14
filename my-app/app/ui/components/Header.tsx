@@ -5,8 +5,8 @@ import { auth, signOut } from "../../../auth";
 
 export default async function Header() {
   const session = await auth();
-  const isLoggedIn = !!session?.user;
-  const user = session?.user as { name?: string; email?: string; role?: string } | undefined;
+  const user = session?.user;
+  const isLoggedIn = !!user;
 
   return (
     <header className="site-header">
@@ -33,21 +33,26 @@ export default async function Header() {
             </>
           )}
 
-          {isLoggedIn && (
+          {user && (
             <div className="user-menu">
-              {user?.role === "seller" && (
+              {user.role === "seller" && (
                 <Link href="/seller/profile" className="nav-link">
                   My Profile
                 </Link>
               )}
-              <div className="user-info">
-                <span className="user-name">{user?.name ?? user?.email}</span>
-                {user?.role && (
+
+              <Link href="/account" className="user-info">
+                <span className="user-name">
+                  {user.name ?? user.email ?? "Account"}
+                </span>
+
+                {user.role && (
                   <span className={`role-badge role-badge--${user.role}`}>
                     {user.role}
                   </span>
                 )}
-              </div>
+              </Link>
+
               <form
                 action={async () => {
                   "use server";

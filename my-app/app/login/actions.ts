@@ -2,7 +2,13 @@
 
 import { signIn } from "../../auth";
 import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
+import bcrypt from "bcryptjs";
+import { connectDB } from "../../lib/db";
+import Buyer from "../../lib/models/Buyer";
+import Seller from "../../lib/models/Seller";
 
+// --- LOGIN ACTION ---
 export async function loginAction(
   _prevState: { error: string } | null,
   formData: FormData

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "../../../auth";
 import { connectDB } from "../../../lib/db";
-import User from "../../../lib/models/User";
+import Seller from "../../../lib/models/Seller";
 import Product from "../../../lib/models/Product";
 import { ProfileEditForm } from "./ProfileEditForm";
 import { DeleteProductButton } from "./DeleteProductButton";
@@ -18,7 +18,7 @@ export default async function SellerProfilePage() {
 
   await connectDB();
 
-  const user = await User.findById(sessionUser.id).lean();
+  const user = await Seller.findById(sessionUser.id).lean();
   if (!user) redirect("/");
 
   const products = await Product.find({ sellerId: sessionUser.id })

@@ -70,14 +70,10 @@ export function NewProductForm() {
           </label>
           <select id="category" name="category" className={styles.input}>
             <option value="">Select a category</option>
-            <option value="Pottery">Pottery</option>
-            <option value="Woodwork">Woodwork</option>
-            <option value="Textile">Textile</option>
-            <option value="Jewelry">Jewelry</option>
-            <option value="Painting">Painting</option>
-            <option value="Glasswork">Glasswork</option>
-            <option value="Leatherwork">Leatherwork</option>
-            <option value="Other">Other</option>
+            <option value="pottery">Pottery</option>
+            <option value="woodwork">Woodwork</option>
+            <option value="textile">Textile</option>
+            <option value="jewelry">Jewelry</option>
           </select>
         </div>
       </div>

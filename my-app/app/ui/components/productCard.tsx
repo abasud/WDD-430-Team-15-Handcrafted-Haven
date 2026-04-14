@@ -5,14 +5,22 @@ import styles from "./ProductCard.module.css";
 interface ProductCardProps {
   id: string;
   title: string;
+  category: string;
   artist: string;
   price: number;
   image: string;
 }
 
-export default function ProductCard({ id, title, artist, price, image }: ProductCardProps) {
+export default function ProductCard({
+  id,
+  title,
+  artist,
+  category,
+  price,
+  image,
+}: ProductCardProps) {
   return (
-    <Link href={`/products/${id}`} className={styles.cardLink}>
+    <Link href={`/items/${id}`} className={styles.cardLink}>
       <article className={styles.card}>
         <div className={styles.imageContainer}>
           <Image
@@ -22,10 +30,11 @@ export default function ProductCard({ id, title, artist, price, image }: Product
             className={styles.image}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-        </div>        
+        </div>
         <div className={styles.details}>
           <h4 className={styles.title}>{title}</h4>
           <p className={styles.artist}>By {artist}</p>
+          <p className={styles.artist}>Category: {category}</p>
           <div className={styles.footer}>
             <span className={styles.price}>${price.toFixed(2)}</span>
             <span className={styles.viewButton}>View →</span>
