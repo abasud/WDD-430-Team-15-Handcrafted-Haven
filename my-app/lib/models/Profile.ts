@@ -7,6 +7,7 @@ export interface IProfile {
   email: string;
   role: "seller";
   authenticated: "Y" | "N";
+  category: "pottery" | "wood" | "textile" | "painting";
   image: string;
   story: string;
   age?: number;
@@ -31,7 +32,18 @@ const ProfileSchema = new Schema<IProfile>(
     email: { type: String, required: true, trim: true },
     role: { type: String, enum: ["seller"], required: true },
     authenticated: { type: String, enum: ["Y", "N"], required: true },
-    image: { type: String, required: true, trim: true },
+    category: {
+      type: String,
+      enum: ["pottery", "wood", "textile", "painting"],
+      required: true,
+      trim: true,
+    },
+    image: {
+      type: String,
+      required: true,
+      trim: true,
+      default: "/seller-images/default-image.jpg",
+    },
     story: { type: String, required: true, trim: true },
     age: { type: Number },
     residenceCity: { type: String, trim: true },

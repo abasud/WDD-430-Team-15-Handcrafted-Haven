@@ -21,6 +21,7 @@ type LeanProfile = {
   email: string;
   role: "seller";
   authenticated: "Y" | "N";
+  category: "pottery" | "wood" | "textile" | "painting";
   image: string;
   story: string;
   age?: number;
@@ -63,11 +64,7 @@ export default async function SellerProfilePage({
   }
 
   const products = (await Product.find({
-    $or: [
-      { userId: seller._id },
-      { userId: seller._id.toString() },
-      { artist: seller.name },
-    ],
+    $or: [{ userId: seller._id }, { userId: seller._id.toString() }, { artist: seller.name }],
   })
     .sort({ createdAt: -1 })
     .lean()) as LeanProduct[];
@@ -92,10 +89,6 @@ export default async function SellerProfilePage({
           <span> / </span>
           <span>Seller Profile</span>
         </div>
-
-        <Link href="/" className={styles.backButton}>
-          Back to Catalog
-        </Link>
       </div>
 
       <h1 className={styles.pageTitle}>Seller Profile</h1>
@@ -103,11 +96,12 @@ export default async function SellerProfilePage({
       <section className={styles.profileCard}>
         <div className={styles.imageWrap}>
           <Image
-            src={profile.image}
+            src={profile.image || "/seller-images/default-image.jpg"}
             alt={profile.name}
             width={280}
             height={280}
             className={styles.profileImage}
+            unoptimized
           />
         </div>
 
@@ -123,9 +117,6 @@ export default async function SellerProfilePage({
           <p className={styles.story}>{profile.story}</p>
 
           <div className={styles.profileFooter}>
-            <a href="#seller-products" className={styles.productsButton}>
-              View Seller Products
-            </a>
             <span className={styles.productCount}>
               {products.length} product{products.length === 1 ? "" : "s"} listed
             </span>

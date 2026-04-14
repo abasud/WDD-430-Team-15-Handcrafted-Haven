@@ -8,29 +8,72 @@ import { deleteProduct, deleteReview } from "./actions";
 import styles from "./account.module.css";
 import WishlistManager from "../ui/components/WishlistManager";
 
+type SessionUser = {
+  id?: string;
+  name?: string;
+  role?: "buyer" | "seller";
+};
+
+type LeanReview = {
+  _id: { toString(): string };
+  title: string;
+  comment: string;
+};
+
+type LeanProduct = {
+  _id: { toString(): string };
+  title: string;
+  description: string;
+  category: string;
+  availability: string;
+  price: number;
+};
+
 export default async function AccountPage() {
   const session = await auth();
-  const user = session?.user as any;
+  const user = session?.user as SessionUser | undefined;
 
   if (!user?.id) redirect("/login");
 
   await connectDB();
 
-  const reviews = await Review.find({ userId: user.id }).lean();
+  const reviews = (await Review.find({ userId: user.id }).lean()) as LeanReview[];
   const products =
     user.role === "seller"
-      ? await Product.find({ userId: user.id }).lean()
+      ? ((await Product.find({ userId: user.id }).lean()) as LeanProduct[])
       : [];
+
+  const sellerProfileHref = `/profiles/${user.id}`;
 
   return (
     <main className={styles.page}>
-      <h1 className={styles.accountName}>{user.name}</h1>
+      {user.role === "seller" ? (
+        <section className={styles.profileCallout}>
+          <div className={styles.profileCalloutText}>
+            <p className={styles.profileEyebrow}>Seller account</p>
+
+            <h1 className={styles.accountName}>
+              <Link href={sellerProfileHref} className={styles.profileNameLink}>
+                {user.name}
+              </Link>
+            </h1>
+
+            <p className={styles.profileHint}>
+              Your name is clickable. Open your public seller profile to see what buyers see.
+            </p>
+          </div>
+
+          <Link href={sellerProfileHref} className={styles.profileButton}>
+            View My Seller Profile
+          </Link>
+        </section>
+      ) : (
+        <h1 className={styles.accountName}>{user.name}</h1>
+      )}
 
       <section className={styles.wishlistSection}>
         <h2 className={styles.sectionTitle}>My Wishlist</h2>
-        
         <WishlistManager />
-        
       </section>
 
       <section className={styles.reviewsSection}>
@@ -39,7 +82,7 @@ export default async function AccountPage() {
         {reviews.length === 0 ? (
           <p>You have not written any reviews yet.</p>
         ) : (
-          reviews.map((review: any) => {
+          reviews.map((review) => {
             const reviewId = String(review._id);
 
             return (
@@ -52,6 +95,7 @@ export default async function AccountPage() {
                     display: "flex",
                     gap: "0.75rem",
                     marginTop: "1rem",
+                    flexWrap: "wrap",
                   }}
                 >
                   <Link
@@ -116,12 +160,17 @@ export default async function AccountPage() {
 
       {user.role === "seller" && (
         <section className={styles.productsSection}>
-          <h2 className={styles.sectionTitle}>My Products</h2>
+          <div className={styles.productsHeader}>
+            <h2 className={styles.sectionTitle}>My Products</h2>
+            <Link href={sellerProfileHref} className={styles.inlineProfileLink}>
+              See my public seller profile
+            </Link>
+          </div>
 
           {products.length === 0 ? (
             <p>You have not created any products yet.</p>
           ) : (
-            products.map((product: any) => {
+            products.map((product) => {
               const productId = String(product._id);
 
               return (
@@ -132,6 +181,7 @@ export default async function AccountPage() {
                       justifyContent: "space-between",
                       alignItems: "flex-start",
                       marginBottom: "0.75rem",
+                      gap: "1rem",
                     }}
                   >
                     <h3 style={{ margin: 0 }}>{product.title}</h3>
@@ -155,6 +205,7 @@ export default async function AccountPage() {
                       display: "flex",
                       gap: "0.75rem",
                       marginTop: "1rem",
+                      flexWrap: "wrap",
                     }}
                   >
                     <Link
@@ -192,11 +243,7 @@ export default async function AccountPage() {
                     </Link>
 
                     <form action={deleteProduct} style={{ margin: 0 }}>
-                      <input
-                        type="hidden"
-                        name="productId"
-                        value={productId}
-                      />
+                      <input type="hidden" name="productId" value={productId} />
                       <button
                         type="submit"
                         style={{

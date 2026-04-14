@@ -6,12 +6,99 @@
   margin: 0 0 2.5rem 0;
 }
 
-.reviewsSection, .wishlistSection {
+.profileCallout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+  padding: 1.5rem 1.75rem;
+  border: 2px solid #d8c7b3;
+  border-radius: 24px;
+  background: #fffaf3;
+}
+
+.profileCalloutText {
+  min-width: 0;
+}
+
+.profileEyebrow {
+  margin: 0 0 0.35rem 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b5e34;
+}
+
+.profileNameLink {
+  color: #1f3310;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 8px;
+  transition: color 0.18s ease, text-decoration-color 0.18s ease;
+}
+
+.profileNameLink:hover {
+  color: #bc6c25;
+  text-decoration-color: #bc6c25;
+}
+
+.profileHint {
+  margin: -1.2rem 0 0 0;
+  color: #5f6b3b;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.profileButton {
+  display: inline-block;
+  flex-shrink: 0;
+  padding: 0.85rem 1.35rem;
+  border-radius: 999px;
+  background: #bc6c25;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background-color 0.18s ease, transform 0.12s ease;
+}
+
+.profileButton:hover {
+  background: #9c571d;
+}
+
+.profileButton:active {
+  transform: translateY(1px);
+}
+
+.reviewsSection,
+.wishlistSection {
   margin-bottom: 4rem;
 }
 
 .productsSection {
   margin-top: 0;
+}
+
+.productsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.inlineProfileLink {
+  color: #bc6c25;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.inlineProfileLink:hover {
+  color: #9c571d;
 }
 
 .sectionTitle {
@@ -163,4 +250,19 @@
   cursor: pointer;
   font-weight: 600;
   font: inherit;
+}
+
+@media (max-width: 900px) {
+  .page {
+    padding: 1.5rem;
+  }
+
+  .profileCallout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profileHint {
+    margin-top: 0.5rem;
+  }
 }
