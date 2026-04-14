@@ -1,13 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { auth } from "../../../auth";
 import { connectDB } from "../../../lib/db";
-import Product from "../../../lib/models/Product";
 import Review from "../../../lib/models/Review";
-import { notFound } from "next/navigation";
 import { createReview } from "./actions";
-import styles from "./item-page.module.css";
 import WishlistCheckbox from "../../ui/components/Wishlist";
+import styles from "./item-page.module.css";
+import { canViewProduct } from "../../../lib/data/sellerVisibility";
+
+type SessionUser = {
+  id?: string;
+  name?: string;
+  role?: "buyer" | "seller";
+};
 
 export default async function Page({
   params,
@@ -16,14 +22,15 @@ export default async function Page({
 }) {
   const { id } = await params;
   const session = await auth();
-  const user = session?.user as
-    | { id?: string; name?: string; role?: string }
-    | undefined;
+  const user = session?.user as SessionUser | undefined;
 
   await connectDB();
 
-  const product = await Product.findById(id).lean();
-  if (!product) notFound();
+  const { allowed, product, seller } = await canViewProduct(id, user);
+
+  if (!allowed || !product || !seller) {
+    notFound();
+  }
 
   const reviews = await Review.find({ productId: id })
     .sort({ createdAt: -1 })
@@ -32,7 +39,6 @@ export default async function Page({
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        {/* PRODUCT CARD — DO NOT TOUCH */}
         <div className={styles.card}>
           <div className={styles.imageWrapper}>
             <div className={styles.imageBox}>
@@ -49,7 +55,13 @@ export default async function Page({
             <h1 className={styles.title}>{product.title}</h1>
 
             <p className={styles.textRow}>
-              <strong>Artist:</strong> {product.artist}
+              <strong>Artist:</strong>{" "}
+              <Link
+                href={`/profiles/${seller._id.toString()}`}
+                className={styles.artistLink}
+              >
+                {product.artist}
+              </Link>
             </p>
 
             <p className={styles.textRow}>
@@ -68,32 +80,32 @@ export default async function Page({
               <strong>Availability:</strong> {product.availability}
             </p>
 
-            {product.dimensions && (
+            {product.dimensions ? (
               <p className={styles.textRow}>
                 <strong>Dimensions:</strong> {product.dimensions}
               </p>
-            )}
+            ) : null}
 
-            {product.materials?.length > 0 && (
+            {Array.isArray(product.materials) && product.materials.length > 0 ? (
               <p className={styles.textRow}>
                 <strong>Materials:</strong> {product.materials.join(", ")}
               </p>
-            )}
-            <WishlistCheckbox 
+            ) : null}
+
+            <WishlistCheckbox
               product={{
                 id: product._id.toString(),
                 title: product.title,
                 image: product.image,
                 price: product.price,
                 artist: product.artist,
-                category: product.category
-              }} 
-              isLoggedIn={!!session} 
+                category: product.category,
+              }}
+              isLoggedIn={!!session}
             />
           </div>
         </div>
 
-        {/* REVIEW SECTION */}
         <section className={styles.reviewSection}>
           <h2 className={styles.reviewHeading}>Leave a Review</h2>
 
@@ -119,9 +131,7 @@ export default async function Page({
                 </div>
 
                 <div className={styles.reviewField}>
-                  <label className={styles.reviewLabel}>
-                    Review Title:
-                  </label>
+                  <label className={styles.reviewLabel}>Review Title:</label>
                   <input
                     name="title"
                     type="text"
@@ -159,21 +169,29 @@ export default async function Page({
             </div>
           ) : (
             <div className={styles.reviewList}>
-              {reviews.map((review: any) => (
-                <article key={String(review._id)} className={styles.reviewCard}>
-                  <div className={styles.reviewTop}>
-                    <h3 className={styles.reviewTitleText}>
-                      {review.title}
-                    </h3>
-                    <strong>{review.rating}/5</strong>
-                  </div>
+              {reviews.map((review) => {
+                const reviewId = String(review._id);
+                const reviewTitle =
+                  typeof review.title === "string" ? review.title : "";
+                const reviewComment =
+                  typeof review.comment === "string" ? review.comment : "";
+                const reviewRating =
+                  typeof review.rating === "number" ? review.rating : 0;
+                const reviewUserName =
+                  typeof review.userName === "string" ? review.userName : "Anonymous";
 
-                  <p className={styles.reviewComment}>{review.comment}</p>
-                  <p className={styles.reviewAuthor}>
-                    - {review.userName}
-                  </p>
-                </article>
-              ))}
+                return (
+                  <article key={reviewId} className={styles.reviewCard}>
+                    <div className={styles.reviewTop}>
+                      <h3 className={styles.reviewTitleText}>{reviewTitle}</h3>
+                      <strong>{reviewRating}/5</strong>
+                    </div>
+
+                    <p className={styles.reviewComment}>{reviewComment}</p>
+                    <p className={styles.reviewAuthor}>- {reviewUserName}</p>
+                  </article>
+                );
+              })}
             </div>
           )}
         </section>

@@ -1,9 +1,10 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { connectDB } from "./lib/db";
-import User from "./lib/models/Buyer";
 import { authConfig } from "./auth.config";
+import { connectDB } from "./lib/db";
+import Buyer from "./lib/models/Buyer";
+import Seller from "./lib/models/Seller";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -14,20 +15,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
         await connectDB();
 
-        const user = await User.findOne({ email: credentials.email as string });
+        const email = String(credentials.email).toLowerCase().trim();
+        const password = String(credentials.password);
 
-        if (!user) return null;
+        const buyer = await Buyer.findOne({ email });
+        const seller = await Seller.findOne({ email });
 
-        const passwordMatch = await bcrypt.compare(
-          credentials.password as string,
-          user.password
-        );
+        const user = buyer ?? seller;
 
-        if (!passwordMatch) return null;
+        if (!user) {
+          return null;
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+          return null;
+        }
 
         return {
           id: user._id.toString(),
@@ -38,10 +48,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-
   session: { strategy: "jwt" },
   secret: process.env.AUTH_SECRET,
-
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -55,7 +63,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       return token;
     },
-
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;

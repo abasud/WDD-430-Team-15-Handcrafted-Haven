@@ -1,32 +1,55 @@
 import ProductCard from "./ui/components/productCard";
 import Filters from "./ui/components/filters";
+import PaginationControls from "./ui/components/PaginationControls";
 import styles from "./ui/page.module.css";
 import { connectDB } from "../lib/db";
 import Product from "../lib/models/Product";
 import Seller from "../lib/models/Seller";
-import PaginationControls from "./ui/components/PaginationControls";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+type LeanProduct = {
+  _id: { toString(): string };
+  title: string;
+  artist: string;
+  category: string;
+  price: number;
+  image: string;
+};
+
 export default async function HomePage({ searchParams }: PageProps) {
   await connectDB();
 
-  // Extract the filter values from the URL
   const filters = await searchParams;
 
-  // --- PAGINATION LOGIC ---
-  const PAGE_SIZE = 8; 
-  const currentPage = Number(filters.page) || 1; 
+  const PAGE_SIZE = 8;
+  const currentPage = Number(filters.page) || 1;
   const skip = (currentPage - 1) * PAGE_SIZE;
 
-  const artist = filters.artist as string;
-  const category = filters.type as string; 
-  const maxPrice = filters.maxPrice as string;
+  const artist = typeof filters.artist === "string" ? filters.artist : undefined;
+  const category = typeof filters.type === "string" ? filters.type : undefined;
+  const maxPrice =
+    typeof filters.maxPrice === "string" ? filters.maxPrice : undefined;
 
-  // Construct the dynamic MongoDB query
-  const query: any = {};
+  const authenticatedSellers = await Seller.find(
+    { authenticated: "Y" },
+    "_id name"
+  )
+    .sort({ name: 1 })
+    .lean();
+
+  const authenticatedSellerIds = authenticatedSellers.map((seller) => seller._id);
+
+  const artistNames = authenticatedSellers
+    .map((seller) => seller.name)
+    .filter((name): name is string => Boolean(name))
+    .sort((a, b) => a.localeCompare(b));
+
+  const query: Record<string, unknown> = {
+    userId: { $in: authenticatedSellerIds },
+  };
 
   if (artist && artist !== "All Artists") {
     query.artist = artist;
@@ -43,17 +66,11 @@ export default async function HomePage({ searchParams }: PageProps) {
   const totalProducts = await Product.countDocuments(query);
   const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
 
-  // Fetch the filtered products
-  const products = await Product.find(query)
+  const products = (await Product.find(query)
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(PAGE_SIZE)
-    .lean();
-  
-  const sellers = await Seller.find({}, "name").lean();
-  const artistNames: string[] = sellers
-    .map(seller => seller.name)
-    .filter((name): name is string => Boolean(name));
+    .lean()) as LeanProduct[];
 
   return (
     <div className={styles.container}>
@@ -72,18 +89,19 @@ export default async function HomePage({ searchParams }: PageProps) {
       </section>
 
       <div className={styles.mainContent}>
-        
         <Filters artists={artistNames} />
 
         <div className={styles.galleryContainer}>
           <section className={styles.productGallery}>
             {products.length === 0 ? (
-              <p className={styles.noProducts}>No products match your current filters.</p>
+              <p className={styles.noProducts}>
+                No products match your current filters.
+              </p>
             ) : (
-              products.map((product: any) => (
+              products.map((product) => (
                 <ProductCard
-                  key={String(product._id)}
-                  id={String(product._id)}
+                  key={product._id.toString()}
+                  id={product._id.toString()}
                   title={product.title}
                   artist={product.artist}
                   category={product.category}
@@ -93,9 +111,10 @@ export default async function HomePage({ searchParams }: PageProps) {
               ))
             )}
           </section>
-          <PaginationControls 
-            currentPage={currentPage} 
-            totalPages={totalPages} 
+
+          <PaginationControls
+            currentPage={currentPage}
+            totalPages={totalPages}
           />
         </div>
       </div>
