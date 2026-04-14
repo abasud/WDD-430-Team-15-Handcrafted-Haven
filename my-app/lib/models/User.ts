@@ -6,6 +6,8 @@ export interface IUser {
   email: string;
   password: string;
   role: "buyer" | "seller";
+  bio?: string;
+  story?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,6 +18,8 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["buyer", "seller"], default: "buyer", required: true },
+    bio: { type: String, default: "" },
+    story: { type: String, default: "" },
   },
   { timestamps: true }
 );
