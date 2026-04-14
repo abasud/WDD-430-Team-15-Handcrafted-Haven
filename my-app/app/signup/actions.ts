@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { connectDB } from "../../lib/db";
 import Buyer from "../../lib/models/Buyer";
 import Seller from "../../lib/models/Seller";
-import Admin from "../../lib/models/Admin";
 
 export type SignupState = {
   error?: string;
@@ -42,7 +41,7 @@ export async function signupAction(
     fieldErrors.password = "Password must be at least 8 characters.";
   }
 
-  if (!role || !["buyer", "seller", "admin"].includes(role)) {
+  if (!role || !["buyer", "seller"].includes(role)) {
     fieldErrors.role = "Please select an account type.";
   }
 
@@ -57,9 +56,8 @@ export async function signupAction(
   try {
     const existingBuyer = await Buyer.findOne({ email }).lean();
     const existingSeller = await Seller.findOne({ email }).lean();
-    const existingAdmin = await Admin.findOne({ email }).lean();
 
-    if (existingBuyer || existingSeller || existingAdmin) {
+    if (existingBuyer || existingSeller) {
       return { error: "An account with this email already exists." };
     }
 
@@ -75,15 +73,6 @@ export async function signupAction(
       });
 
       redirectTo = `/signup/seller-profile?sellerId=${seller._id.toString()}`;
-    } else if (role === "admin") {
-      await Admin.create({
-        name,
-        email,
-        password: hashedPassword,
-        role: "admin",
-      });
-
-      redirectTo = "/login?registered=true&role=admin";
     } else {
       await Buyer.create({
         name,
