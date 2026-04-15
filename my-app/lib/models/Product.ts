@@ -2,7 +2,7 @@ import mongoose, { Schema, Model } from "mongoose";
 
 export interface IProduct {
   _id: mongoose.Types.ObjectId;
-  userId: mongoose.Types.ObjectId;
+  sellerId: mongoose.Types.ObjectId;
   title: string;
   artist: string;
   price: number;
@@ -18,16 +18,16 @@ export interface IProduct {
 
 const ProductSchema = new Schema<IProduct>(
   {
-    userId: {
+    sellerId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Seller",
       required: true,
       index: true,
     },
     title: { type: String, required: true, trim: true },
     artist: { type: String, required: true, trim: true },
     price: { type: Number, required: true, min: 0 },
-    image: { type: String, required: true, trim: true },
+    image: { type: String, default: "", trim: true },
     description: { type: String, required: true, trim: true },
     category: {
       type: String,
@@ -39,7 +39,7 @@ const ProductSchema = new Schema<IProduct>(
       default: [],
     },
     dimensions: { type: String, trim: true },
-    availability: { type: String, required: true, trim: true },
+    availability: { type: String, default: "available", trim: true },
   },
   { timestamps: true }
 );
