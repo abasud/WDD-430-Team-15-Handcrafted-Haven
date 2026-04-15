@@ -1,17 +1,41 @@
 "use client";
 
 import { useActionState } from "react";
-import { createSellerProfileAction } from "./actions";
+import type { SellerProfileState } from "./actions";
 import styles from "./seller-profile.module.css";
+
+type SellerProfileInitialValues = {
+  category?: string;
+  image?: string;
+  story?: string;
+  age?: number | null;
+  residenceCity?: string;
+  residenceCountry?: string;
+};
 
 type Props = {
   sellerId: string;
   sellerName: string;
   sellerEmail: string;
+  action: (
+    prevState: SellerProfileState,
+    formData: FormData
+  ) => Promise<SellerProfileState>;
+  submitLabel?: string;
+  pendingLabel?: string;
+  initialValues?: SellerProfileInitialValues;
 };
 
-export function SellerProfileForm({ sellerId, sellerName, sellerEmail }: Props) {
-  const [state, formAction, isPending] = useActionState(createSellerProfileAction, null);
+export function SellerProfileForm({
+  sellerId,
+  sellerName,
+  sellerEmail,
+  action,
+  submitLabel = "Save Seller Profile",
+  pendingLabel = "Saving profile...",
+  initialValues,
+}: Props) {
+  const [state, formAction, isPending] = useActionState(action, null);
 
   return (
     <form action={formAction} className={styles.form}>
@@ -30,7 +54,12 @@ export function SellerProfileForm({ sellerId, sellerName, sellerEmail }: Props) 
         <label htmlFor="category" className={styles.label}>
           Craft Category
         </label>
-        <select id="category" name="category" className={styles.input} defaultValue="">
+        <select
+          id="category"
+          name="category"
+          className={styles.input}
+          defaultValue={initialValues?.category || ""}
+        >
           <option value="" disabled>
             Select a category
           </option>
@@ -54,6 +83,7 @@ export function SellerProfileForm({ sellerId, sellerName, sellerEmail }: Props) 
           type="text"
           placeholder="/seller-images/my-photo.jpg"
           className={styles.input}
+          defaultValue={initialValues?.image || ""}
         />
         <p className={styles.helperText}>
           Leave blank to use <code>/seller-images/default-image.jpg</code>.
@@ -74,6 +104,7 @@ export function SellerProfileForm({ sellerId, sellerName, sellerEmail }: Props) 
           placeholder="Tell buyers about your work, inspiration, and process..."
           className={styles.textarea}
           required
+          defaultValue={initialValues?.story || ""}
         />
         {state?.fieldErrors?.story && (
           <p className={styles.fieldError}>{state.fieldErrors.story}</p>
@@ -93,6 +124,9 @@ export function SellerProfileForm({ sellerId, sellerName, sellerEmail }: Props) 
             max="120"
             className={styles.input}
             placeholder="29"
+            defaultValue={
+              typeof initialValues?.age === "number" ? String(initialValues.age) : ""
+            }
           />
           {state?.fieldErrors?.age && (
             <p className={styles.fieldError}>{state.fieldErrors.age}</p>
@@ -110,6 +144,7 @@ export function SellerProfileForm({ sellerId, sellerName, sellerEmail }: Props) 
             className={styles.input}
             placeholder="Seoul"
             required
+            defaultValue={initialValues?.residenceCity || ""}
           />
           {state?.fieldErrors?.residenceCity && (
             <p className={styles.fieldError}>{state.fieldErrors.residenceCity}</p>
@@ -128,6 +163,7 @@ export function SellerProfileForm({ sellerId, sellerName, sellerEmail }: Props) 
           className={styles.input}
           placeholder="South Korea"
           required
+          defaultValue={initialValues?.residenceCountry || ""}
         />
         {state?.fieldErrors?.residenceCountry && (
           <p className={styles.fieldError}>{state.fieldErrors.residenceCountry}</p>
@@ -141,7 +177,7 @@ export function SellerProfileForm({ sellerId, sellerName, sellerEmail }: Props) 
       {state?.error && <p className={styles.error}>{state.error}</p>}
 
       <button type="submit" className={styles.button} disabled={isPending}>
-        {isPending ? "Saving profile..." : "Save Seller Profile"}
+        {isPending ? pendingLabel : submitLabel}
       </button>
     </form>
   );

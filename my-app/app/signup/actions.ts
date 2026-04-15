@@ -3,6 +3,7 @@
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 import { connectDB } from "../../lib/db";
+import Admin from "../../lib/models/Admin";
 import Buyer from "../../lib/models/Buyer";
 import Seller from "../../lib/models/Seller";
 
@@ -54,10 +55,11 @@ export async function signupAction(
   let redirectTo = "/login?registered=true";
 
   try {
+    const existingAdmin = await Admin.findOne({ email }).lean();
     const existingBuyer = await Buyer.findOne({ email }).lean();
     const existingSeller = await Seller.findOne({ email }).lean();
 
-    if (existingBuyer || existingSeller) {
+    if (existingAdmin || existingBuyer || existingSeller) {
       return { error: "An account with this email already exists." };
     }
 

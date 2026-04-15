@@ -11,7 +11,7 @@ import styles from "./profile-page.module.css";
 
 type SessionUser = {
   id?: string;
-  role?: "buyer" | "seller";
+  role?: "admin" | "buyer" | "seller";
 };
 
 type LeanProfile = {

@@ -4,38 +4,41 @@
 
 .accountName {
   margin: 0 0 2.5rem 0;
+  color: #1f3310;
 }
 
 .profileCallout {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
   gap: 1.5rem;
   margin-bottom: 2.5rem;
-  padding: 1.5rem 1.75rem;
-  border: 2px solid #d8c7b3;
-  border-radius: 24px;
-  background: #fffaf3;
+  padding: 1.75rem 2rem;
+  border: 1px solid #d8c7b3;
+  border-radius: 30px;
+  background: #f7f3ee;
 }
 
 .profileCalloutText {
   min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .profileEyebrow {
-  margin: 0 0 0.35rem 0;
+  margin: 0 0 0.5rem 0;
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #8b5e34;
+  color: #9c6431;
 }
 
 .profileNameLink {
   color: #1f3310;
   text-decoration: underline;
-  text-decoration-thickness: 3px;
-  text-underline-offset: 8px;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 12px;
   transition: color 0.18s ease, text-decoration-color 0.18s ease;
 }
 
@@ -45,35 +48,252 @@
 }
 
 .profileHint {
-  margin: -1.2rem 0 0 0;
-  color: #5f6b3b;
+  margin: 1.5rem 0 0 0;
+  color: #657345;
   font-size: 1rem;
   line-height: 1.5;
+  max-width: 760px;
+}
+
+.sellerCalloutActions {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.profileButton,
+.profileButtonSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0.95rem 1.5rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.98rem;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.12s ease,
+    border-color 0.18s ease;
 }
 
 .profileButton {
-  display: inline-block;
-  flex-shrink: 0;
-  padding: 0.85rem 1.35rem;
-  border-radius: 999px;
   background: #bc6c25;
   color: #ffffff;
-  text-decoration: none;
-  font-weight: 700;
-  white-space: nowrap;
-  transition: background-color 0.18s ease, transform 0.12s ease;
+  border: 2px solid #bc6c25;
 }
 
 .profileButton:hover {
   background: #9c571d;
+  border-color: #9c571d;
 }
 
-.profileButton:active {
+.profileButtonSecondary {
+  background: #ffffff;
+  color: #1f3310;
+  border: 2px solid #d8c7b3;
+}
+
+.profileButtonSecondary:hover {
+  border-color: #bc6c25;
+  color: #bc6c25;
+}
+
+.profileButton:active,
+.profileButtonSecondary:active {
   transform: translateY(1px);
 }
 
-.reviewsSection,
-.wishlistSection {
+.adminSection {
+  margin-bottom: 4rem;
+}
+
+.adminHeader {
+  margin-bottom: 1.5rem;
+}
+
+.adminHint {
+  margin-top: 0.35rem;
+  color: #5f6b3b;
+  line-height: 1.5;
+  max-width: 760px;
+}
+
+.adminList {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.adminCard {
+  display: block;
+  width: 100%;
+  border: 1px solid #d8c7b3;
+  border-radius: 28px;
+  background: #f7f3ee;
+  padding: 1.75rem;
+}
+
+.adminCardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.adminSellerInfo {
+  min-width: 0;
+  flex: 1;
+}
+
+.adminSellerName {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.15rem;
+  line-height: 1.2;
+  color: #243217;
+}
+
+.adminSellerMeta {
+  margin: 0.35rem 0;
+  color: #46515f;
+  font-size: 1rem;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.adminLinksRow {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.adminProfileLink,
+.adminManageLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    transform 0.12s ease;
+}
+
+.adminProfileLink {
+  background: #ffffff;
+  color: #1f3310;
+  border: 2px solid #d8c7b3;
+}
+
+.adminProfileLink:hover {
+  color: #bc6c25;
+  border-color: #bc6c25;
+}
+
+.adminManageLink {
+  background: #ffffff;
+  color: #bc6c25;
+  border: 2px solid rgba(188, 108, 37, 0.28);
+}
+
+.adminManageLink:hover {
+  background: #fff8f1;
+  border-color: #bc6c25;
+}
+
+.adminProfileLink:active,
+.adminManageLink:active {
+  transform: translateY(1px);
+}
+
+.adminStatusBlock {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.statusApproved {
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+
+.statusPending {
+  background: rgba(185, 28, 28, 0.12);
+  color: #b91c1c;
+}
+
+.adminActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.adminActions form {
+  margin: 0;
+}
+
+.approveButton,
+.rejectButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  border: none;
+  border-radius: 999px;
+  padding: 0.9rem 1.3rem;
+  font-weight: 700;
+  font-size: 0.98rem;
+  line-height: 1;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.12s ease, opacity 0.18s ease;
+}
+
+.approveButton:hover,
+.rejectButton:hover {
+  opacity: 0.92;
+}
+
+.approveButton:active,
+.rejectButton:active {
+  transform: translateY(1px);
+}
+
+.approveButton {
+  background: #15803d;
+  color: #ffffff;
+}
+
+.rejectButton {
+  background: #b91c1c;
+  color: #ffffff;
+}
+
+.wishlistSection,
+.reviewsSection {
   margin-bottom: 4rem;
 }
 
@@ -103,10 +323,7 @@
 
 .sectionTitle {
   margin: 0 0 1rem 0;
-}
-
-.emptyText {
-  margin: 0;
+  color: #243217;
 }
 
 .card {
@@ -121,148 +338,54 @@
   margin: 0 0 0.5rem 0;
 }
 
-.productHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  gap: 1rem;
-  margin-bottom: 0.9rem;
-}
-
-.productTitle {
-  margin: 0;
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.price {
-  margin: 0;
-  font-weight: 700;
-  font-size: 1.1rem;
-  text-align: right;
-  white-space: nowrap;
-}
-
-.productDescription {
-  margin: 0 0 0.9rem 0;
-}
-
-.detailRow {
-  margin: 0 0 0.5rem 0;
-}
-
-.actionsRow {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  margin-top: 1.1rem;
-  flex-wrap: wrap;
-}
-
-.actionLink {
-  display: inline-block;
-  text-decoration: none;
-  color: inherit;
-  font-weight: 500;
-}
-
-.actionLink:hover {
-  text-decoration: underline;
-}
-
-.inlineForm {
-  display: inline-block;
-  margin: 0;
-}
-
-.deleteButton {
-  border: 1px solid #b91c1c;
-  background: #ffffff;
-  color: #b91c1c;
-  padding: 0.45rem 0.9rem;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 600;
-  font: inherit;
-}
-
-.createProductWrap {
-  margin-top: 2.25rem;
-}
-
-.createLink {
-  text-decoration: none;
-  color: inherit;
-}
-
-.createLink:hover {
-  text-decoration: underline;
-}
-
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 1000;
-}
-
-.modal {
-  width: min(100%, 420px);
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
-}
-
-.modalText {
-  margin: 0 0 1rem 0;
-  line-height: 1.5;
-}
-
-.modalActions {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: flex-end;
-}
-
-.confirmButton {
-  border: none;
-  background: #b91c1c;
-  color: #ffffff;
-  padding: 0.6rem 1rem;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 600;
-  font: inherit;
-}
-
-.cancelButton {
-  border: 1px solid #cccccc;
-  background: #ffffff;
-  color: #222222;
-  padding: 0.6rem 1rem;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 600;
-  font: inherit;
-}
-
 @media (max-width: 900px) {
   .page {
     padding: 1.5rem;
   }
 
   .profileCallout {
+    padding: 1.25rem;
+  }
+
+  .adminCard {
+    padding: 1.25rem;
+    border-radius: 22px;
+  }
+
+  .adminCardTop {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .profileHint {
-    margin-top: 0.5rem;
+  .adminStatusBlock {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 700px) {
+  .profileCallout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sellerCalloutActions {
+    width: 100%;
+  }
+
+  .profileButton,
+  .profileButtonSecondary {
+    width: 100%;
+  }
+
+  .adminLinksRow {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .adminProfileLink,
+  .adminManageLink,
+  .approveButton,
+  .rejectButton {
+    width: 100%;
   }
 }

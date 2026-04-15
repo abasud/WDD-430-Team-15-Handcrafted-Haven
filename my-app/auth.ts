@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { authConfig } from "./auth.config";
 import { connectDB } from "./lib/db";
+import Admin from "./lib/models/Admin";
 import Buyer from "./lib/models/Buyer";
 import Seller from "./lib/models/Seller";
 
@@ -24,10 +25,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const email = String(credentials.email).toLowerCase().trim();
         const password = String(credentials.password);
 
+        const admin = await Admin.findOne({ email });
         const buyer = await Buyer.findOne({ email });
         const seller = await Seller.findOne({ email });
 
-        const user = buyer ?? seller;
+        const user = admin ?? buyer ?? seller;
 
         if (!user) {
           return null;
@@ -56,7 +58,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.id = user.id;
 
         const role = (user as { role?: unknown }).role;
-        if (role === "buyer" || role === "seller") {
+        if (role === "admin" || role === "buyer" || role === "seller") {
           token.role = role;
         }
       }
@@ -67,7 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user) {
         session.user.id = token.id as string;
 
-        if (token.role === "buyer" || token.role === "seller") {
+        if (token.role === "admin" || token.role === "buyer" || token.role === "seller") {
           session.user.role = token.role;
         }
       }

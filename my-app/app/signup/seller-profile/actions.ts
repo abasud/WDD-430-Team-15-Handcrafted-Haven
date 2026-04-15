@@ -20,9 +20,13 @@ export type SellerProfileState = {
 
 const VALID_CATEGORIES = ["pottery", "wood", "textile", "painting"] as const;
 
-export async function createSellerProfileAction(
-  _prevState: SellerProfileState,
-  formData: FormData
+type SaveSellerProfileOptions = {
+  redirectTo: string;
+};
+
+async function saveSellerProfile(
+  formData: FormData,
+  options: SaveSellerProfileOptions
 ): Promise<SellerProfileState> {
   const sellerId = String(formData.get("sellerId") || "").trim();
   const imageInput = String(formData.get("image") || "").trim();
@@ -109,9 +113,27 @@ export async function createSellerProfileAction(
       }
     );
   } catch (error) {
-    console.error("Create seller profile error:", error);
+    console.error("Save seller profile error:", error);
     return { error: "Could not save seller profile. Please try again." };
   }
 
-  redirect("/login?registered=true&profileCreated=true");
+  redirect(options.redirectTo);
+}
+
+export async function createSellerProfileAction(
+  _prevState: SellerProfileState,
+  formData: FormData
+): Promise<SellerProfileState> {
+  return saveSellerProfile(formData, {
+    redirectTo: "/login?registered=true&profileCreated=true",
+  });
+}
+
+export async function updateSellerProfileAction(
+  _prevState: SellerProfileState,
+  formData: FormData
+): Promise<SellerProfileState> {
+  return saveSellerProfile(formData, {
+    redirectTo: "/account?profileUpdated=true",
+  });
 }

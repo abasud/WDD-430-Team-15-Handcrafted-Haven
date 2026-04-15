@@ -12,7 +12,7 @@ import { canViewProduct } from "../../../lib/data/sellerVisibility";
 type SessionUser = {
   id?: string;
   name?: string;
-  role?: "buyer" | "seller";
+  role?: "admin" | "buyer" | "seller";
 };
 
 export default async function Page({

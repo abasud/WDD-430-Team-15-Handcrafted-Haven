@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { connectDB } from "../../../lib/db";
 import Seller from "../../../lib/models/Seller";
+import { createSellerProfileAction } from "./actions";
 import { SellerProfileForm } from "./seller-profile-form";
 import styles from "./seller-profile.module.css";
 
@@ -37,6 +38,9 @@ export default async function SellerProfileSetupPage({
           sellerId={seller._id.toString()}
           sellerName={seller.name || ""}
           sellerEmail={seller.email}
+          action={createSellerProfileAction}
+          submitLabel="Save Seller Profile"
+          pendingLabel="Saving profile..."
         />
       </div>
     </div>

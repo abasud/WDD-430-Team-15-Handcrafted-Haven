@@ -4,7 +4,7 @@ import Product from "../models/Product";
 type Viewer =
   | {
       id?: string;
-      role?: "buyer" | "seller";
+      role?: "admin" | "buyer" | "seller";
     }
   | undefined;
 
@@ -18,11 +18,12 @@ export async function canViewSellerProfile(sellerId: string, viewer?: Viewer) {
     };
   }
 
+  const isAdmin = viewer?.role === "admin";
   const isOwner = viewer?.id === String(seller._id);
   const isAuthenticatedSeller = seller.authenticated === "Y";
 
   return {
-    allowed: isOwner || isAuthenticatedSeller,
+    allowed: isAdmin || isOwner || isAuthenticatedSeller,
     seller,
   };
 }
@@ -53,11 +54,12 @@ export async function canViewProduct(productId: string, viewer?: Viewer) {
     };
   }
 
+  const isAdmin = viewer?.role === "admin";
   const isOwner = viewer?.id === String(seller._id);
   const isAuthenticatedSeller = seller.authenticated === "Y";
 
   return {
-    allowed: isOwner || isAuthenticatedSeller,
+    allowed: isAdmin || isOwner || isAuthenticatedSeller,
     product,
     seller,
   };
