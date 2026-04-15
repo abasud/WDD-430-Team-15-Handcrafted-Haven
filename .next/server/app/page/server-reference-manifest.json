@@ -1,0 +1,17 @@
+{
+  "node": {
+    "00b96a88fabd2f15e09fd9bd4aed35ab6c2c419e9f": {
+      "workers": {
+        "app/page": {
+          "moduleId": 41336,
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "app/ui/components/Header.tsx"
+        }
+      },
+      "exportedName": "$$RSC_SERVER_ACTION_0",
+      "filename": "app/ui/components/Header.tsx"
+    }
+  },
+  "edge": {}
+}

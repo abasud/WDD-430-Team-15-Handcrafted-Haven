@@ -1,0 +1,41 @@
+{
+  "node": {
+    "00b96a88fabd2f15e09fd9bd4aed35ab6c2c419e9f": {
+      "workers": {
+        "app/account/seller-profile/edit/page": {
+          "moduleId": 83338,
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "app/ui/components/Header.tsx"
+        }
+      },
+      "exportedName": "$$RSC_SERVER_ACTION_0",
+      "filename": "app/ui/components/Header.tsx"
+    },
+    "605d9f46276b81bc2f2b0cc947b609d8bdc61452a4": {
+      "workers": {
+        "app/account/seller-profile/edit/page": {
+          "moduleId": 83338,
+          "async": false,
+          "exportedName": "updateSellerProfileAction",
+          "filename": "app/signup/seller-profile/actions.ts"
+        }
+      },
+      "exportedName": "updateSellerProfileAction",
+      "filename": "app/signup/seller-profile/actions.ts"
+    },
+    "606fb1f5d05d65c1daf3e0e0e93939181febeb6dfa": {
+      "workers": {
+        "app/account/seller-profile/edit/page": {
+          "moduleId": 83338,
+          "async": false,
+          "exportedName": "createSellerProfileAction",
+          "filename": "app/signup/seller-profile/actions.ts"
+        }
+      },
+      "exportedName": "createSellerProfileAction",
+      "filename": "app/signup/seller-profile/actions.ts"
+    }
+  },
+  "edge": {}
+}

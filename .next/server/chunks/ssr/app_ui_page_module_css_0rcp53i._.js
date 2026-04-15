@@ -1,0 +1,3 @@
+module.exports=[78997,a=>{a.v({cardWrapper:"page-module__1Criqa__cardWrapper",container:"page-module__1Criqa__container",deleteBtn:"page-module__1Criqa__deleteBtn",filterGroup:"page-module__1Criqa__filterGroup",filters:"page-module__1Criqa__filters",firstFilter:"page-module__1Criqa__firstFilter",hero:"page-module__1Criqa__hero",mainContent:"page-module__1Criqa__mainContent",priceRange:"page-module__1Criqa__priceRange",productGallery:"page-module__1Criqa__productGallery",searchButton:"page-module__1Criqa__searchButton",searchContainer:"page-module__1Criqa__searchContainer",searchInput:"page-module__1Criqa__searchInput",subtitle:"page-module__1Criqa__subtitle",title:"page-module__1Criqa__title"})}];
+
+//# sourceMappingURL=app_ui_page_module_css_0rcp53i._.js.map

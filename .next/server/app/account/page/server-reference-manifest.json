@@ -1,0 +1,65 @@
+{
+  "node": {
+    "00b96a88fabd2f15e09fd9bd4aed35ab6c2c419e9f": {
+      "workers": {
+        "app/account/page": {
+          "moduleId": 69389,
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "app/ui/components/Header.tsx"
+        }
+      },
+      "exportedName": "$$RSC_SERVER_ACTION_0",
+      "filename": "app/ui/components/Header.tsx"
+    },
+    "4019a2c33fc249695e24f19b46f304be4a509d70ab": {
+      "workers": {
+        "app/account/page": {
+          "moduleId": 69389,
+          "async": false,
+          "exportedName": "updateSellerApprovalStatus",
+          "filename": "app/account/actions.ts"
+        }
+      },
+      "exportedName": "updateSellerApprovalStatus",
+      "filename": "app/account/actions.ts"
+    },
+    "406dae460b9fcd7da67186f529fd442fd5d4d8292c": {
+      "workers": {
+        "app/account/page": {
+          "moduleId": 69389,
+          "async": false,
+          "exportedName": "adminDeleteSellerProduct",
+          "filename": "app/account/actions.ts"
+        }
+      },
+      "exportedName": "adminDeleteSellerProduct",
+      "filename": "app/account/actions.ts"
+    },
+    "4085b749ea9cb5f728963c9e7c3d1eb63f14a8ebf8": {
+      "workers": {
+        "app/account/page": {
+          "moduleId": 69389,
+          "async": false,
+          "exportedName": "deleteReview",
+          "filename": "app/account/actions.ts"
+        }
+      },
+      "exportedName": "deleteReview",
+      "filename": "app/account/actions.ts"
+    },
+    "408f502c283d07518a5007bf7d7485029526a0e70b": {
+      "workers": {
+        "app/account/page": {
+          "moduleId": 69389,
+          "async": false,
+          "exportedName": "deleteProduct",
+          "filename": "app/account/actions.ts"
+        }
+      },
+      "exportedName": "deleteProduct",
+      "filename": "app/account/actions.ts"
+    }
+  },
+  "edge": {}
+}

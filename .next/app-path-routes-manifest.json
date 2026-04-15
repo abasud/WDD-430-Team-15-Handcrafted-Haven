@@ -1,0 +1,16 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/account/page": "/account",
+  "/account/seller-profile/edit/page": "/account/seller-profile/edit",
+  "/account/sellers/[sellerId]/products/page": "/account/sellers/[sellerId]/products",
+  "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]",
+  "/items/[id]/page": "/items/[id]",
+  "/login/page": "/login",
+  "/page": "/",
+  "/products/[id]/edit/page": "/products/[id]/edit",
+  "/products/new/page": "/products/new",
+  "/profiles/[id]/page": "/profiles/[id]",
+  "/signup/page": "/signup",
+  "/signup/seller-profile/page": "/signup/seller-profile"
+}

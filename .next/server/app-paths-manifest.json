@@ -1,0 +1,16 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/account/page": "app/account/page.js",
+  "/account/seller-profile/edit/page": "app/account/seller-profile/edit/page.js",
+  "/account/sellers/[sellerId]/products/page": "app/account/sellers/[sellerId]/products/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/items/[id]/page": "app/items/[id]/page.js",
+  "/login/page": "app/login/page.js",
+  "/page": "app/page.js",
+  "/products/[id]/edit/page": "app/products/[id]/edit/page.js",
+  "/products/new/page": "app/products/new/page.js",
+  "/profiles/[id]/page": "app/profiles/[id]/page.js",
+  "/signup/page": "app/signup/page.js",
+  "/signup/seller-profile/page": "app/signup/seller-profile/page.js"
+}

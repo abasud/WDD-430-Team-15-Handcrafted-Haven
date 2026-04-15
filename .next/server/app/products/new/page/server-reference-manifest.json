@@ -1,0 +1,29 @@
+{
+  "node": {
+    "00b96a88fabd2f15e09fd9bd4aed35ab6c2c419e9f": {
+      "workers": {
+        "app/products/new/page": {
+          "moduleId": 10221,
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "app/ui/components/Header.tsx"
+        }
+      },
+      "exportedName": "$$RSC_SERVER_ACTION_0",
+      "filename": "app/ui/components/Header.tsx"
+    },
+    "607da38e9d3e550592d8ab9ffb0433429dc3d0f463": {
+      "workers": {
+        "app/products/new/page": {
+          "moduleId": 10221,
+          "async": false,
+          "exportedName": "createProductAction",
+          "filename": "app/products/new/actions.ts"
+        }
+      },
+      "exportedName": "createProductAction",
+      "filename": "app/products/new/actions.ts"
+    }
+  },
+  "edge": {}
+}
