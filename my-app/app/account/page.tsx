@@ -6,12 +6,12 @@ import Product from "../../lib/models/Product";
 import Review from "../../lib/models/Review";
 import Seller from "../../lib/models/Seller";
 import {
-  deleteProduct,
   deleteReview,
   updateSellerApprovalStatus,
 } from "./actions";
 import styles from "./account.module.css";
 import WishlistManager from "../ui/components/WishlistManager";
+import ProductCardActions from "./product-card-actions";
 
 type SessionUser = {
   id?: string;
@@ -217,64 +217,18 @@ export default async function AccountPage() {
                 <h3 className={styles.reviewTitle}>{review.title}</h3>
                 <p>{review.comment}</p>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "0.75rem",
-                    marginTop: "1rem",
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <Link
-                    href={`/reviews/${reviewId}`}
-                    style={{
-                      padding: "0.55rem 1.1rem",
-                      borderRadius: "999px",
-                      border: "2px solid #2563eb",
-                      color: "#2563eb",
-                      textDecoration: "none",
-                      fontWeight: 600,
-                      backgroundColor: "#ffffff",
-                      fontSize: "0.95rem",
-                      lineHeight: "1",
-                    }}
-                  >
+                <div className={styles.itemActions}>
+                  <Link href={`/reviews/${reviewId}`} className={styles.viewAction}>
                     View
                   </Link>
 
-                  <Link
-                    href={`/reviews/${reviewId}/edit`}
-                    style={{
-                      padding: "0.55rem 1.1rem",
-                      borderRadius: "999px",
-                      border: "2px solid #1f3b14",
-                      color: "#1f3b14",
-                      textDecoration: "none",
-                      fontWeight: 600,
-                      backgroundColor: "#ffffff",
-                      fontSize: "0.95rem",
-                      lineHeight: "1",
-                    }}
-                  >
+                  <Link href={`/reviews/${reviewId}/edit`} className={styles.editAction}>
                     Edit
                   </Link>
 
-                  <form action={deleteReview} style={{ margin: 0 }}>
+                  <form action={deleteReview} className={styles.inlineForm}>
                     <input type="hidden" name="reviewId" value={reviewId} />
-                    <button
-                      type="submit"
-                      style={{
-                        padding: "0.55rem 1.1rem",
-                        borderRadius: "999px",
-                        border: "2px solid #b91c1c",
-                        color: "#b91c1c",
-                        backgroundColor: "#ffffff",
-                        fontWeight: 600,
-                        cursor: "pointer",
-                        fontSize: "0.95rem",
-                        lineHeight: "1",
-                      }}
-                    >
+                    <button type="submit" className={styles.deleteOutlineAction}>
                       Delete
                     </button>
                   </form>
@@ -302,17 +256,9 @@ export default async function AccountPage() {
 
               return (
                 <div key={productId} className={styles.card}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "flex-start",
-                      marginBottom: "0.75rem",
-                      gap: "1rem",
-                    }}
-                  >
-                    <h3 style={{ margin: 0 }}>{product.title}</h3>
-                    <span style={{ fontWeight: 700 }}>
+                  <div className={styles.productCardHeader}>
+                    <h3 className={styles.productCardTitle}>{product.title}</h3>
+                    <span className={styles.productCardPrice}>
                       ${Number(product.price).toFixed(2)}
                     </span>
                   </div>
@@ -327,88 +273,14 @@ export default async function AccountPage() {
                     <strong>Availability:</strong> {product.availability}
                   </p>
 
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "0.75rem",
-                      marginTop: "1rem",
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <Link
-                      href={`/items/${productId}`}
-                      style={{
-                        padding: "0.55rem 1.1rem",
-                        borderRadius: "999px",
-                        border: "2px solid #2563eb",
-                        color: "#2563eb",
-                        textDecoration: "none",
-                        fontWeight: 600,
-                        backgroundColor: "#ffffff",
-                        fontSize: "0.95rem",
-                        lineHeight: "1",
-                      }}
-                    >
-                      View
-                    </Link>
-
-                    <Link
-                      href={`/products/${productId}/edit`}
-                      style={{
-                        padding: "0.55rem 1.1rem",
-                        borderRadius: "999px",
-                        border: "2px solid #1f3b14",
-                        color: "#1f3b14",
-                        textDecoration: "none",
-                        fontWeight: 600,
-                        backgroundColor: "#ffffff",
-                        fontSize: "0.95rem",
-                        lineHeight: "1",
-                      }}
-                    >
-                      Edit
-                    </Link>
-
-                    <form action={deleteProduct} style={{ margin: 0 }}>
-                      <input type="hidden" name="productId" value={productId} />
-                      <button
-                        type="submit"
-                        style={{
-                          padding: "0.55rem 1.1rem",
-                          borderRadius: "999px",
-                          border: "2px solid #b91c1c",
-                          color: "#b91c1c",
-                          backgroundColor: "#ffffff",
-                          fontWeight: 600,
-                          cursor: "pointer",
-                          fontSize: "0.95rem",
-                          lineHeight: "1",
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </form>
-                  </div>
+                  <ProductCardActions productId={productId} />
                 </div>
               );
             })
           )}
 
-          <div style={{ marginTop: "2rem" }}>
-            <Link
-              href="/products/new"
-              style={{
-                display: "inline-block",
-                padding: "0.6rem 1.3rem",
-                borderRadius: "999px",
-                border: "2px solid #1f3b14",
-                color: "#1f3b14",
-                textDecoration: "none",
-                fontWeight: 600,
-                backgroundColor: "#ffffff",
-                fontSize: "1rem",
-              }}
-            >
+          <div className={styles.createProductRow}>
+            <Link href="/products/new" className={styles.createProductButton}>
               + Create New Product
             </Link>
           </div>
