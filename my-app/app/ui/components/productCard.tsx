@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./ProductCard.module.css";
@@ -11,6 +14,8 @@ interface ProductCardProps {
   image: string;
 }
 
+const DEFAULT_IMAGE = "/card-images/default-image.jpg";
+
 export default function ProductCard({
   id,
   title,
@@ -19,18 +24,21 @@ export default function ProductCard({
   price,
   image,
 }: ProductCardProps) {
-  const imageSrc = image?.trim() ? image : "/card-images/default-image.jpg";
+  const [imgSrc, setImgSrc] = useState(
+    image?.trim() ? image : DEFAULT_IMAGE
+  );
 
   return (
     <Link href={`/items/${id}`} className={styles.cardLink}>
       <article className={styles.card}>
         <div className={styles.imageContainer}>
           <Image
-            src={imageSrc}
+            src={imgSrc}
             alt={`Image of ${title}`}
             fill
             className={styles.image}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onError={() => setImgSrc(DEFAULT_IMAGE)}
           />
         </div>
         <div className={styles.details}>
