@@ -5,6 +5,7 @@ import styles from "./ui/page.module.css";
 import { connectDB } from "../lib/db";
 import Product from "../lib/models/Product";
 import Seller from "../lib/models/Seller";
+import Search from "./ui/components/search";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -24,9 +25,14 @@ export default async function HomePage({ searchParams }: PageProps) {
 
   const filters = await searchParams;
 
+  const searchQuery =
+    typeof filters.query === "string" ? filters.query.trim() : "";
+
   const PAGE_SIZE = 8;
-  const currentPage = Number(filters.page) || 1;
-  const skip = (currentPage - 1) * PAGE_SIZE;
+  const requestedPage = Number(
+    typeof filters.page === "string" ? filters.page : "1"
+  );
+  const currentPage = Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1;
 
   const artist = typeof filters.artist === "string" ? filters.artist : undefined;
   const category = typeof filters.type === "string" ? filters.type : undefined;
@@ -37,7 +43,7 @@ export default async function HomePage({ searchParams }: PageProps) {
     { authenticated: "Y" },
     "_id name"
   )
-    .sort({ name: 1 })
+    .sort({ name: 1, _id: 1 })
     .lean();
 
   const authenticatedSellerIds = authenticatedSellers.map((seller) => seller._id);
@@ -63,11 +69,24 @@ export default async function HomePage({ searchParams }: PageProps) {
     query.price = { $lte: Number(maxPrice) };
   }
 
+  if (searchQuery) {
+    const escapedSearch = searchQuery.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    query.$or = [
+      { title: { $regex: escapedSearch, $options: "i" } },
+      { artist: { $regex: escapedSearch, $options: "i" } },
+      { description: { $regex: escapedSearch, $options: "i" } },
+      { category: { $regex: escapedSearch, $options: "i" } },
+      { materials: { $regex: escapedSearch, $options: "i" } },
+    ];
+  }
+
   const totalProducts = await Product.countDocuments(query);
-  const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(totalProducts / PAGE_SIZE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const skip = (safeCurrentPage - 1) * PAGE_SIZE;
 
   const products = (await Product.find(query)
-    .sort({ createdAt: -1 })
+    .sort({ createdAt: -1, _id: -1 })
     .skip(skip)
     .limit(PAGE_SIZE)
     .lean()) as LeanProduct[];
@@ -79,12 +98,7 @@ export default async function HomePage({ searchParams }: PageProps) {
         <p className={styles.subtitle}>Discover pieces made with passion</p>
 
         <div className={styles.searchContainer}>
-          <input
-            type="text"
-            placeholder="Search for unique items"
-            className={styles.searchInput}
-          />
-          <button className={styles.searchButton}>Search</button>
+          <Search placeholder="Search by keyword, artist, type, or material" />
         </div>
       </section>
 
@@ -113,7 +127,7 @@ export default async function HomePage({ searchParams }: PageProps) {
           </section>
 
           <PaginationControls
-            currentPage={currentPage}
+            currentPage={safeCurrentPage}
             totalPages={totalPages}
           />
         </div>
