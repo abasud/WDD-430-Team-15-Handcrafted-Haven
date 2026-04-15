@@ -132,7 +132,7 @@
   width: 100%;
   border: 1px solid #d8c7b3;
   border-radius: 28px;
-  background: #f7f3ee;
+  background: #ffffff;
   padding: 1.75rem;
 }
 
@@ -338,6 +338,138 @@
   margin: 0 0 0.5rem 0;
 }
 
+.itemActions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.inlineForm {
+  margin: 0;
+}
+
+.viewAction,
+.editAction,
+.deleteOutlineAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  text-decoration: none;
+  background: #ffffff;
+}
+
+.viewAction {
+  border: 2px solid #2563eb;
+  color: #2563eb;
+}
+
+.editAction {
+  border: 2px solid #1f3b14;
+  color: #1f3b14;
+}
+
+.deleteOutlineAction {
+  border: 2px solid #b91c1c;
+  color: #b91c1c;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.productCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
+}
+
+.productCardTitle {
+  margin: 0;
+}
+
+.productCardPrice {
+  font-weight: 700;
+}
+
+.createProductRow {
+  margin-top: 2rem;
+}
+
+.createProductButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  border: 2px solid #1f3b14;
+  color: #1f3b14;
+  text-decoration: none;
+  font-weight: 600;
+  background-color: #ffffff;
+  font-size: 1rem;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modalText {
+  margin: 0 0 1.25rem 0;
+  line-height: 1.5;
+}
+
+.modalActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.confirmButton {
+  border: 1px solid #b91c1c;
+  background: #b91c1c;
+  color: #ffffff;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.cancelButton {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  color: #333333;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-family: inherit;
+}
+
 @media (max-width: 900px) {
   .page {
     padding: 1.5rem;
@@ -373,19 +505,27 @@
   }
 
   .profileButton,
-  .profileButtonSecondary {
+  .profileButtonSecondary,
+  .adminProfileLink,
+  .adminManageLink,
+  .approveButton,
+  .rejectButton,
+  .viewAction,
+  .editAction,
+  .deleteOutlineAction,
+  .createProductButton {
     width: 100%;
   }
 
-  .adminLinksRow {
+  .adminLinksRow,
+  .itemActions,
+  .modalActions {
     width: 100%;
     flex-direction: column;
   }
 
-  .adminProfileLink,
-  .adminManageLink,
-  .approveButton,
-  .rejectButton {
-    width: 100%;
+  .productCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
