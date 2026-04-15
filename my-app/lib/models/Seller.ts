@@ -6,6 +6,8 @@ export interface ISeller {
   email: string;
   password: string;
   role: "seller";
+  bio?: string;
+  story?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,10 +18,12 @@ const SellerSchema = new Schema<ISeller>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ["seller"], required: true },
+    bio: { type: String, default: "" },
+    story: { type: String, default: "" },
   },
-  { 
+  {
     timestamps: true,
-    collection: "sellers" 
+    collection: "sellers"
   }
 );
 

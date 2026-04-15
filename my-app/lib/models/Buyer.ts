@@ -17,7 +17,7 @@ const BuyerSchema = new Schema<IBuyer>(
     password: { type: String, required: true },
     role: { type: String, enum: ["buyer"], required: true }
   },
-  { 
+  {
     timestamps: true,
     collection: "buyers"
   }

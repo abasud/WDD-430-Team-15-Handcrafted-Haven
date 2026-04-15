@@ -35,6 +35,12 @@ export default async function Header() {
 
           {user && (
             <div className="user-menu">
+              {user.role === "seller" && (
+                <Link href="/seller/profile" className="nav-link">
+                  My Profile
+                </Link>
+              )}
+
               <Link href="/account" className="user-info">
                 <span className="user-name">
                   {user.name ?? user.email ?? "Account"}

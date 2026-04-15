@@ -2,7 +2,8 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { connectDB } from "./lib/db";
-import User from "./lib/models/Buyer";
+import Buyer from "./lib/models/Buyer";
+import Seller from "./lib/models/Seller";
 import { authConfig } from "./auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -18,7 +19,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         await connectDB();
 
-        const user = await User.findOne({ email: credentials.email as string });
+        // Check both collections — buyers and sellers
+        const user =
+          (await Buyer.findOne({ email: credentials.email as string })) ??
+          (await Seller.findOne({ email: credentials.email as string }));
 
         if (!user) return null;
 
