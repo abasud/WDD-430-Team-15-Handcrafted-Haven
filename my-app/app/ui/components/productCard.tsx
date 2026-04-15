@@ -19,12 +19,14 @@ export default function ProductCard({
   price,
   image,
 }: ProductCardProps) {
+  const imageSrc = image?.trim() ? image : "/card-images/default-image.jpg";
+
   return (
     <Link href={`/items/${id}`} className={styles.cardLink}>
       <article className={styles.card}>
         <div className={styles.imageContainer}>
           <Image
-            src={image}
+            src={imageSrc}
             alt={`Image of ${title}`}
             fill
             className={styles.image}
