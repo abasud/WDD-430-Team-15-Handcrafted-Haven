@@ -13,7 +13,7 @@ export async function updateProductAction(
 ): Promise<ProductFormState> {
   const session = await auth();
   const user = session?.user as
-    | { id?: string; name?: string; role?: "buyer" | "seller" }
+    | { id?: string; name?: string; role?: "admin" | "buyer" | "seller" }
     | undefined;
 
   if (!user?.id) {
