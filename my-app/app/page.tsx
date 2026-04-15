@@ -5,9 +5,10 @@ import styles from "./ui/page.module.css";
 import { connectDB } from "../lib/db";
 import Product from "../lib/models/Product";
 import Seller from "../lib/models/Seller";
+import Search from "./ui/components/search";
 
 interface PageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 type LeanProduct = {
@@ -22,7 +23,10 @@ type LeanProduct = {
 export default async function HomePage({ searchParams }: PageProps) {
   await connectDB();
 
-  const filters = await searchParams;
+  const filters = searchParams;
+
+  const searchQuery =
+  typeof filters.query === "string" ? filters.query : undefined;
 
   const PAGE_SIZE = 8;
   const currentPage = Number(filters.page) || 1;
@@ -63,6 +67,12 @@ export default async function HomePage({ searchParams }: PageProps) {
     query.price = { $lte: Number(maxPrice) };
   }
 
+  if (searchQuery) {
+  query.$or = [
+    { title: { $regex: searchQuery, $options: "i" } },
+    { artist: { $regex: searchQuery, $options: "i" } },
+  ];
+}
   const totalProducts = await Product.countDocuments(query);
   const totalPages = Math.ceil(totalProducts / PAGE_SIZE);
 
@@ -79,12 +89,7 @@ export default async function HomePage({ searchParams }: PageProps) {
         <p className={styles.subtitle}>Discover pieces made with passion</p>
 
         <div className={styles.searchContainer}>
-          <input
-            type="text"
-            placeholder="Search for unique items"
-            className={styles.searchInput}
-          />
-          <button className={styles.searchButton}>Search</button>
+          <Search placeholder="Search for unique items" />
         </div>
       </section>
 
